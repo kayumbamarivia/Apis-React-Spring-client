@@ -14,33 +14,27 @@ export default function Header() {
 
   return (
     <header className='bg-gray-200 shadow-md'>
-      <div className='flex justify-between items-center max-w-6xl mx-auto px-4 py-3'>
-        <Link to='/'>
-          <h1 className='font-bold text-xl text-gray-800 flex items-center'>
-            <span className='text-indigo-500'>Kayumba</span>
-            <span className='text-indigo-700 ml-1'>Estate</span>
-          </h1>
+      <div className='container mx-auto px-4 py-4 md:py-6 flex flex-wrap items-center justify-between'>
+        <Link to='/' className='text-2xl font-bold text-gray-800'>
+          <span className='text-indigo-500'>Kayumba</span>
+          <span className='text-indigo-700 ml-1'>Estate</span>
         </Link>
-        <form onSubmit={handleSubmit} className='bg-white p-3 rounded-lg flex items-center'>
+        <form onSubmit={handleSubmit} className='flex items-center mt-4 md:mt-0'>
           <input
             type='text'
             placeholder='Search...'
-            className='bg-transparent focus:outline-none w-24 sm:w-64 text-gray-800'
+            className='px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500'
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <button type="submit" className="ml-2">
-            <FaSearch className='text-gray-600' />
+          <button type="submit" className="px-4 py-2 ml-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600">
+            <FaSearch />
           </button>
         </form>
-        <ul className='flex gap-4'>
-          <li className='text-gray-800 hover:text-indigo-600'>
-            <Link to='/'>Home</Link>
-          </li>
-          <li className='text-gray-800 hover:text-indigo-600'>
-            <Link to='/about'>About</Link>
-          </li>
-        </ul>
+        <nav className='flex flex-wrap items-center gap-4 mt-4 md:mt-0'>
+          <Link to='/' className='text-gray-800 hover:text-indigo-600'>Home</Link>
+          <Link to='/about' className='text-gray-800 hover:text-indigo-600'>About</Link>
+        </nav>
       </div>
     </header>
   );
