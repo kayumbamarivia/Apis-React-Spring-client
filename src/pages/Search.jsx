@@ -86,11 +86,11 @@ async function Load() {
       </div>
       <div className='flex-1'>
         <h1 className='text-3xl font-semibold border-b p-3 text-gray-800 mt-5'>
-          Listing results:
+          Searching results:
         </h1>
         <div className='p-7 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
           {listings.length === 0 && (
-            <p className='text-xl text-gray-800'>No listings found!</p>
+            <p className='text-xl text-gray-800'>No students(s) found!</p>
           )}
           {listings.map((student) => (
             <div key={student.id} className='border p-3 rounded-lg shadow-md'>

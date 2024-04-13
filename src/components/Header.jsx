@@ -17,7 +17,7 @@ export default function Header() {
       <div className='container mx-auto px-4 py-4 md:py-6 flex flex-wrap items-center justify-between'>
         <Link to='/' className='text-2xl font-bold text-gray-800'>
           <span className='text-indigo-500'>Kayumba</span>
-          <span className='text-indigo-700 ml-1'>Estate</span>
+          <span className='text-indigo-700 ml-1'>@SHINE</span>
         </Link>
         <form onSubmit={handleSubmit} className='flex items-center mt-4 md:mt-0'>
           <input
