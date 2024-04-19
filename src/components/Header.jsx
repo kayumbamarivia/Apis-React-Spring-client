@@ -15,7 +15,7 @@ export default function Header() {
   return (
     <header className='bg-gray-200 shadow-md'>
       <div className='container mx-auto px-4 py-4 md:py-6 flex flex-wrap items-center justify-between'>
-        <Link to='/' className='text-2xl font-bold text-gray-800'>
+        <Link to='/home' className='text-2xl font-bold text-gray-800'>
           <span className='text-indigo-500'>Kayumba</span>
           <span className='text-indigo-700 ml-1'>@SHINE</span>
         </Link>
@@ -32,7 +32,7 @@ export default function Header() {
           </button>
         </form>
         <nav className='flex flex-wrap items-center gap-4 mt-4 md:mt-0'>
-          <Link to='/' className='text-gray-800 hover:text-indigo-600'>Home</Link>
+          <Link to='/home' className='text-gray-800 hover:text-indigo-600'>Home</Link>
           <Link to='/about' className='text-gray-800 hover:text-indigo-600'>About</Link>
         </nav>
       </div>

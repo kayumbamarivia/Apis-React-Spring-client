@@ -44,7 +44,7 @@ export default function EditStudent() {
       }
       setLoading(false);
       setError(null);
-      navigate('/');
+      navigate('/home');
     } catch (error) {
       setLoading(false);
       setError(error.message);
@@ -87,7 +87,7 @@ export default function EditStudent() {
       </form>
       <div className='flex gap-2 mt-5'>
         <p>Do you not want to Update a student ?</p>
-        <Link to={'/'}>
+        <Link to={'/home'}>
           <span className='text-blue-700'>Cancel</span>
         </Link>
       </div>

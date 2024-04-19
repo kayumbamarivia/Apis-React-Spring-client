@@ -24,7 +24,7 @@ export default function Student() {
     try {
       await axios.delete(`https://java-spring-boot-backend-apis.onrender.com/api/students/${id}/delete`);
       alert("User Deleted Successfully!!");
-      navigate('/');
+      navigate('/home');
     } catch (error) {
       console.error('Error deleting student:', error);
     }
