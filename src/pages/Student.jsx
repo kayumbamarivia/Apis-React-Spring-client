@@ -13,7 +13,12 @@ export default function Student() {
 
   async function getStudentById() {
     try {
-      const response = await axios.get(`https://java-spring-boot-backend-apis.onrender.com/api/students/${studentId}/get`);
+      const token = localStorage.getItem('token'); 
+      const response = await axios.get(`https://java-spring-boot-backend-apis.onrender.com/api/students/${studentId}/get`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setStudent(response.data);
     } catch (error) {
       console.error('Error fetching student:', error);
@@ -22,7 +27,12 @@ export default function Student() {
 
   async function deleteStudentById(id) {
     try {
-      await axios.delete(`https://java-spring-boot-backend-apis.onrender.com/api/students/${id}/delete`);
+      const token = localStorage.getItem('token');
+      await axios.delete(`https://java-spring-boot-backend-apis.onrender.com/api/students/${id}/delete`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       alert("User Deleted Successfully!!");
       navigate('/home');
     } catch (error) {

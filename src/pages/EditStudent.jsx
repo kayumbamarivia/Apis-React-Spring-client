@@ -1,21 +1,30 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect} from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import axios from 'axios'
+import axios from 'axios';
 
 export default function EditStudent() {
   const [studentData, setStudentData] = useState({});
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const {studentId} = useParams()
+  const {studentId} = useParams();
+
   useEffect(() => {
-    (async () => getStudentById())();
+    getStudentById();
   }, []);
-  
+
   async function getStudentById() {
-      const response = await axios.get(`https://java-spring-boot-backend-apis.onrender.com/api/students/${studentId}/get`);
+    try {
+      const token = localStorage.getItem('token'); 
+      const response = await axios.get(`https://java-spring-boot-backend-apis.onrender.com/api/students/${studentId}/get`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setStudentData(response.data);
-      console.log(response.data);
+    } catch (error) {
+      console.error('Error fetching student:', error);
+    }
   }
 
   const handleChange = (e) => {
@@ -24,19 +33,21 @@ export default function EditStudent() {
       [e.target.id]: e.target.value,
     });
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       setLoading(true);
+      const token = localStorage.getItem('token');
       const res = await fetch(`https://java-spring-boot-backend-apis.onrender.com/api/students/${studentId}/edit`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(studentData),
       });
       const data = await res.json();
-      console.log(data);
       if (!res.ok) {
         setLoading(false);
         setError(data.message);
@@ -50,6 +61,7 @@ export default function EditStudent() {
       setError(error.message);
     }
   };
+
   return (
     <div className='p-3 max-w-lg mx-auto'>
       <h1 className='text-3xl text-center font-semibold my-7'>Update Student</h1>
@@ -59,7 +71,7 @@ export default function EditStudent() {
           placeholder='First Name'
           className='border p-3 rounded-lg'
           id='firstName'
-          value={studentData.firstName|| ""}
+          value={studentData.firstName || ""}
           onChange={handleChange}
         />
         <input

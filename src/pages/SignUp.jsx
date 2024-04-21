@@ -18,14 +18,7 @@ export default function SignUp() {
     e.preventDefault();
     setLoading(true);
     try {
-      // Your form validation logic here
-      if (!formData.name || !formData.email || !formData.password || !formData.role) {
-        setError("All fields are required.");
-        setLoading(false);
-        return;
-      }
-
-      const res = await fetch('https://java-spring-boot-backend-apis.onrender.com/api/users/signup', {
+      const res = await fetch('https://java-spring-boot-backend-apis.onrender.com/api/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -40,9 +33,11 @@ export default function SignUp() {
         return;
       }
 
+      const data = await res.json();
+      const { token } = data;
+      localStorage.setItem('token', token);
       setLoading(false);
       setError(null);
-      // Redirect to a success page or show a success message
       navigate('/');
     } catch (error) {
       setLoading(false);
@@ -65,7 +60,7 @@ export default function SignUp() {
           type='email'
           placeholder='Email'
           className='border p-3 rounded-lg'
-          id='email'
+          id='username'
           onChange={handleChange}
         />
         <input
@@ -80,9 +75,9 @@ export default function SignUp() {
           className='border p-3 rounded-lg'
           onChange={handleChange}
         >
-          <option value=''>Select Role</option>
-          <option value='admin'>Admin</option>
-          <option value='guest'>Guest</option>
+          <option value=''>Select Role (SUPERUSER is only for owner of this App)</option>
+          <option value='ADMIN'>Admin</option>
+          <option value='USER'>User</option>
         </select>
         <button
           disabled={loading}

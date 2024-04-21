@@ -6,25 +6,28 @@ export default function New() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.id]: e.target.value,
     });
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       setLoading(true);
+      const token = localStorage.getItem('token');
       const res = await fetch('https://java-spring-boot-backend-apis.onrender.com/api/students/add', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(formData),
       });
       const data = await res.json();
-      console.log(data);
       if (!res.ok) {
         setLoading(false);
         setError(data.message);
@@ -38,9 +41,10 @@ export default function New() {
       setError(error.message);
     }
   };
+
   return (
     <div className='p-3 max-w-lg mx-auto'>
-      <h1 className='text-3xl text-center font-semibold my-7'>Student Registartion</h1>
+      <h1 className='text-3xl text-center font-semibold my-7'>Student Registration</h1>
       <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
         <input
           type='text'
@@ -71,7 +75,7 @@ export default function New() {
         </button>
       </form>
       <div className='flex gap-2 mt-5'>
-        <p>You do not want to create Student ?</p>
+        <p>You do not want to create a Student?</p>
         <Link to={'/home'}>
           <span className='text-blue-700'>Cancel</span>
         </Link>

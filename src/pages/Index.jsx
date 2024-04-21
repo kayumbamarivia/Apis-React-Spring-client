@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
@@ -11,7 +11,12 @@ export default function Index() {
 
   async function Load() {
     try {
-      const response = await axios.get("https://java-spring-boot-backend-apis.onrender.com/api/students");
+      const token = localStorage.getItem('token'); 
+      const response = await axios.get("https://java-spring-boot-backend-apis.onrender.com/api/students", {
+        headers: {
+          Authorization: `Bearer ${token}`, 
+        },
+      });
       setStudents(response.data.flat());
     } catch (error) {
       console.error('Error loading students:', error);
@@ -20,7 +25,12 @@ export default function Index() {
 
   async function deleteStudentById(id) {
     try {
-      await axios.delete(`https://java-spring-boot-backend-apis.onrender.com/api/students/${id}/delete`);
+      const token = localStorage.getItem('token'); 
+      await axios.delete(`https://java-spring-boot-backend-apis.onrender.com/api/students/${id}/delete`, {
+        headers: {
+          Authorization: `Bearer ${token}`, 
+        },
+      });
       alert('User Deleted Successfully!!');
       Load();
     } catch (error) {

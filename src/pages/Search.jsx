@@ -1,6 +1,5 @@
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
-import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 export default function Search() {
@@ -14,10 +13,13 @@ export default function Search() {
 
     const fetchListings = async () => {
       try {
-        const res = await fetch(`https://java-spring-boot-backend-apis.onrender.com/api/students/search?searchTerm=${searchTermFromUrl}`);
-        const data = await res.json();
-        setListings(data);
-        console.log(students);
+        const token = localStorage.getItem('token');
+        const res = await axios.get(`https://java-spring-boot-backend-apis.onrender.com/api/students/search?searchTerm=${searchTermFromUrl}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setListings(res.data);
       } catch (error) {
         console.error('Error fetching listings:', error);
       }
@@ -41,22 +43,34 @@ export default function Search() {
   };
 
   useEffect(() => {
-    (async () => await Load())();
-}, []);
+    loadStudents();
+  }, []);
 
-async function Load() {
-    const response = await axios.get(
-        "https://java-spring-boot-backend-apis.onrender.com/api/students"
-    );
-    setStudents(response.data.flat());
-    console.log(response.data.flat());
-}
+  async function loadStudents() {
+    try {
+      const token = localStorage.getItem('token');
+      const res = await axios.get("https://java-spring-boot-backend-apis.onrender.com/api/students", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setStudents(res.data.flat());
+      console.log(students);
+    } catch (error) {
+      console.error('Error loading students:', error);
+    }
+  }
 
   async function deleteStudentById(id) {
     try {
-      await axios.delete(`https://java-spring-boot-backend-apis.onrender.com/api/students/${id}/delete`);
+      const token = localStorage.getItem('token');
+      await axios.delete(`https://java-spring-boot-backend-apis.onrender.com/api/students/${id}/delete`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       alert('User Deleted Successfully!!');
-      Load();
+      loadStudents();
     } catch (error) {
       console.error('Error deleting student:', error);
     }
