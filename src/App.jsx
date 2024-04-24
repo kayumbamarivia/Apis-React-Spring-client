@@ -9,20 +9,27 @@ import Student from './pages/Student';
 import Header from './components/Header';
 import Search from './pages/Search';
 import About from './pages/About';
+import Profile from './pages/Profile';
+import PrivateRoute from './components/PrivateRoute';
+import Landing from './pages/Landing';
 
 export default function App() {
   return (
     <BrowserRouter>
     <Header/>
       <Routes>
-        <Route path='/' element={<SignIn />} />
+        <Route path='/' element={<Landing />} />
+        <Route path='/sign-in' element={<SignIn />} />
         <Route path='/sign-up' element={<SignUp />} />
-        <Route path='/home' element={<Home />} />
-        <Route path='/new' element={<New />} />
-        <Route path='/:studentId/get' element={<Student />} />
-        <Route path='/:studentId/edit' element={<EditStudent />} />
         <Route path='/about' element={<About />} />
-        <Route path='/search' element={<Search />} />
+        <Route element={<PrivateRoute />}>
+          <Route path='/profile' element={<Profile />} />
+          <Route path='/home' element={<Home />} />
+          <Route path='/new' element={<New />} />
+          <Route path='/:studentId/get' element={<Student />} />
+          <Route path='/search' element={<Search />} />
+          <Route path='/:studentId/edit' element={<EditStudent />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

@@ -1,23 +1,45 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 export default function Index() {
   const [students, setStudents] = useState([]);
+  const { currentUser } = useSelector((state) => state.user);
+  const role = currentUser.role;
+  const [viewOption, setViewOption] = useState('all');
 
   useEffect(() => {
     Load();
-  }, []);
+  }, [role,viewOption]);
 
   async function Load() {
     try {
-      const token = localStorage.getItem('token'); 
-      const response = await axios.get("https://java-spring-boot-backend-apis.onrender.com/api/students", {
-        headers: {
-          Authorization: `Bearer ${token}`, 
-        },
-      });
-      setStudents(response.data.flat());
+      const token = sessionStorage.getItem('token');
+      if (role === 'SUPERUSER' || role === 'ADMIN') {
+        if (viewOption === 'all') {
+          const response = await axios.get("https://java-spring-boot-backend-apis.onrender.com/api/students", {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+         });
+         setStudents(response.data.flat());
+        } else if (viewOption === 'createdByUser') {
+          const response = await axios.get(`https://java-spring-boot-backend-apis.onrender.com/api/${currentUser.id}/students`, {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+           });
+        setStudents(response.data.flat());
+        }
+      } else if (role === 'USER') {
+        const response = await axios.get(`https://java-spring-boot-backend-apis.onrender.com/api/${currentUser.id}/students`, {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+           });
+        setStudents(response.data.flat());
+      }
     } catch (error) {
       console.error('Error loading students:', error);
     }
@@ -25,11 +47,11 @@ export default function Index() {
 
   async function deleteStudentById(id) {
     try {
-      const token = localStorage.getItem('token'); 
+      const token = sessionStorage.getItem('token');
       await axios.delete(`https://java-spring-boot-backend-apis.onrender.com/api/students/${id}/delete`, {
         headers: {
-          Authorization: `Bearer ${token}`, 
-        },
+          'Authorization': `Bearer ${token}`
+        }
       });
       alert('User Deleted Successfully!!');
       Load();
@@ -38,8 +60,34 @@ export default function Index() {
     }
   }
 
+  const handleViewOptionChange = option => {
+    setViewOption(option);
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
+       {(role === 'SUPERUSER' || role === 'ADMIN') && (
+        <div>
+          <label>
+            <input
+              type="radio"
+              value="all"
+              checked={viewOption === 'all'}
+              onChange={() => handleViewOptionChange('all')}
+            />
+            View All Students
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="createdByUser"
+              checked={viewOption === 'createdByUser'}
+              onChange={() => handleViewOptionChange('createdByUser')}
+            />
+            View Students Created by User
+          </label>
+        </div>
+      )}
       <h1 className="text-3xl font-semibold mb-4 text-gray-800">Beautiful List of Students</h1>
       <div className="overflow-x-auto">
         <table className="w-full whitespace-nowrap">

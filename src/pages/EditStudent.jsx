@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 
@@ -7,7 +7,7 @@ export default function EditStudent() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const {studentId} = useParams();
+  const { studentId } = useParams();
 
   useEffect(() => {
     getStudentById();
@@ -15,11 +15,11 @@ export default function EditStudent() {
 
   async function getStudentById() {
     try {
-      const token = localStorage.getItem('token'); 
-      const response = await axios.get(`https://java-spring-boot-backend-apis.onrender.com/api/students/${studentId}/get`, {
+      const token = sessionStorage.getItem("token");
+      const response = await axios.get(`https://java-spring-boot-backend-apis.onrender.com/api/student/${studentId}/get`, {
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          'Authorization': `Bearer ${token}`
+        }
       });
       setStudentData(response.data);
     } catch (error) {
@@ -38,12 +38,12 @@ export default function EditStudent() {
     e.preventDefault();
     try {
       setLoading(true);
-      const token = localStorage.getItem('token');
-      const res = await fetch(`https://java-spring-boot-backend-apis.onrender.com/api/students/${studentId}/edit`, {
+      const token = sessionStorage.getItem("token");
+      const res = await fetch(`https://java-spring-boot-backend-apis.onrender.com/api/student/${studentId}/edit`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(studentData),
       });

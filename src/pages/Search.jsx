@@ -2,34 +2,82 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
+import { useSelector } from 'react-redux';
+
 export default function Search() {
   const [listings, setListings] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [students, setStudents] = useState([]);
+  const { currentUser } = useSelector((state) => state.user);
+  const role = currentUser.role;
+
+  // useEffect(() => {
+  //   const urlParams = new URLSearchParams(window.location.search);
+  //   const searchTermFromUrl = urlParams.get('searchTerm');
+
+  //   const fetchListings = async () => {
+  //     try {
+  //       const token = sessionStorage.getItem("token");
+
+  //       if (role === 'SUPERUSER' || role === 'ADMIN') {
+  //         const res = await axios.get(`https://java-spring-boot-backend-apis.onrender.com/api/students/search?searchTerm=${searchTermFromUrl}`, {
+  //         headers: {
+  //           'Authorization': `Bearer ${token}`
+  //         }
+  //       });
+  //       setListings(res.data);
+  //       } else if (role === 'USER') {
+  //         const res = await axios.get(`https://java-spring-boot-backend-apis.onrender.com/api/student/${currentUser.id}/search?searchTerm=${searchTermFromUrl}`, {
+  //           headers: {
+  //             'Authorization': `Bearer ${token}`
+  //           }
+  //         });
+  //         setListings(res.data);
+  //       }
+  //     } catch (error) {
+  //       console.error('Error fetching listings:', error);
+  //     }
+  //   };
+
+  //   if (searchTermFromUrl) {
+  //     setSearchTerm(searchTermFromUrl);
+  //     fetchListings();
+  //   }
+  // }, []);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const searchTermFromUrl = urlParams.get('searchTerm');
-
+  
     const fetchListings = async () => {
       try {
-        const token = localStorage.getItem('token');
-        const res = await axios.get(`https://java-spring-boot-backend-apis.onrender.com/api/students/search?searchTerm=${searchTermFromUrl}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const token = sessionStorage.getItem("token");
+        let res;
+  
+        if (role === 'SUPERUSER' || role === 'ADMIN') {
+          res = await axios.get(`https://java-spring-boot-backend-apis.onrender.com/api/students/search?searchTerm=${searchTermFromUrl}`, {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          });
+        } else if (role === 'USER') {
+          res = await axios.get(`https://java-spring-boot-backend-apis.onrender.com/api/student/${currentUser.id}/search?searchTerm=${searchTermFromUrl}`, {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          });
+        }
         setListings(res.data);
       } catch (error) {
         console.error('Error fetching listings:', error);
       }
     };
-
+  
     if (searchTermFromUrl) {
       setSearchTerm(searchTermFromUrl);
       fetchListings();
     }
-  }, []);
+  }, [role, currentUser.id]);
+  
 
   const handleChange = (e) => {
     setSearchTerm(e.target.value);
@@ -42,32 +90,13 @@ export default function Search() {
     window.location.href = `/search?${urlParams.toString()}`;
   };
 
-  useEffect(() => {
-    loadStudents();
-  }, []);
-
-  async function loadStudents() {
-    try {
-      const token = localStorage.getItem('token');
-      const res = await axios.get("https://java-spring-boot-backend-apis.onrender.com/api/students", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setStudents(res.data.flat());
-      console.log(students);
-    } catch (error) {
-      console.error('Error loading students:', error);
-    }
-  }
-
   async function deleteStudentById(id) {
     try {
-      const token = localStorage.getItem('token');
-      await axios.delete(`https://java-spring-boot-backend-apis.onrender.com/api/students/${id}/delete`, {
+      const token = sessionStorage.getItem("token");
+      await axios.delete(`https://java-spring-boot-backend-apis.onrender.com/api/student/${id}/delete`, {
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          'Authorization': `Bearer ${token}`
+        }
       });
       alert('User Deleted Successfully!!');
       loadStudents();

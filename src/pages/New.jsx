@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 export default function New() {
   const [formData, setFormData] = useState({});
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { currentUser } = useSelector((state) => state.user);
 
   const handleChange = (e) => {
     setFormData({
@@ -18,12 +20,12 @@ export default function New() {
     e.preventDefault();
     try {
       setLoading(true);
-      const token = localStorage.getItem('token');
-      const res = await fetch('https://java-spring-boot-backend-apis.onrender.com/api/students/add', {
+      const token = sessionStorage.getItem("token");
+      const res = await fetch(`https://java-spring-boot-backend-apis.onrender.com/api/student/${currentUser.id}/add`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(formData),
       });
