@@ -12,7 +12,8 @@ import About from './pages/About';
 import Profile from './pages/Profile';
 import PrivateRoute from './components/PrivateRoute';
 import Landing from './pages/Landing';
-
+import Users from './pages/Users';
+import OnlySuperUser from './components/OnlySuperUser';
 export default function App() {
   return (
     <BrowserRouter>
@@ -24,6 +25,9 @@ export default function App() {
         <Route path='/about' element={<About />} />
         <Route element={<PrivateRoute />}>
           <Route path='/profile' element={<Profile />} />
+          <Route  element={<OnlySuperUser />} >
+            <Route path='/users' element={<Users />} />
+          </Route>
           <Route path='/home' element={<Home />} />
           <Route path='/new' element={<New />} />
           <Route path='/:studentId/get' element={<Student />} />

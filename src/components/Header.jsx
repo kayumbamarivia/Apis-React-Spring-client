@@ -1,8 +1,8 @@
+// Header.jsx
+import React, { useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { useState } from 'react';
-
 
 export default function Header() {
   const { currentUser } = useSelector((state) => state.user);
@@ -12,7 +12,11 @@ export default function Header() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (searchTerm.trim() !== '') {
-      navigate(`/search?searchTerm=${encodeURIComponent(searchTerm)}`);
+      let url = `/search?searchTerm=${encodeURIComponent(searchTerm)}`;
+      if (currentUser && currentUser.role === 'USER') {
+        url += `&userId=${currentUser.id}`;
+      }
+      navigate(url);
     }
   };
 
@@ -44,6 +48,11 @@ export default function Header() {
           <Link to='/home'>
             <li className='hidden sm:inline text-slate-700 hover:underline'>
               Home
+            </li>
+          </Link>
+          <Link to='/users'>
+            <li className='hidden sm:inline text-slate-700 hover:underline'>
+              Users
             </li>
           </Link>
           <Link to='/about'>
