@@ -16,7 +16,7 @@ export default function EditStudent() {
   async function getStudentById() {
     try {
       const token = sessionStorage.getItem("token");
-      const response = await axios.get(`https://java-spring-boot-backend-apis.onrender.com/api/student/${studentId}/get`, {
+      const response = await axios.get(`https://kayumba-jmv-java-spring-boot-backend-apis.onrender.com/api/student/${studentId}/get`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -39,7 +39,7 @@ export default function EditStudent() {
     try {
       setLoading(true);
       const token = sessionStorage.getItem("token");
-      const res = await fetch(`https://java-spring-boot-backend-apis.onrender.com/api/student/${studentId}/edit`, {
+      const res = await fetch(`https://kayumba-jmv-java-spring-boot-backend-apis.onrender.com/api/student/${studentId}/edit`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

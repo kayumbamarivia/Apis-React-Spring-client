@@ -22,8 +22,8 @@ export default function Search() {
       try {
         const token = sessionStorage.getItem("token");
         const data = { "userId": currentUser.id, "searchTerm": `${searchTermFromUrl}` };
-        const apiUrl1 = `https://java-spring-boot-backend-apis.onrender.com/api/students/search?searchTerm=${searchTermFromUrl}`;
-        const apiUrl2 = `https://java-spring-boot-backend-apis.onrender.com/api/student/search?searchTerm=${searchTermFromUrl}&userId=${currentUser.id}`;
+        const apiUrl1 = `https://kayumba-jmv-java-spring-boot-backend-apis.onrender.com/api/students/search?searchTerm=${searchTermFromUrl}`;
+        const apiUrl2 = `https://kayumba-jmv-java-spring-boot-backend-apis.onrender.com/api/student/search?searchTerm=${searchTermFromUrl}&userId=${currentUser.id}`;
         if (currentUser.role === 'SUPERUSER' || currentUser.role === 'ADMIN') {
           const res = await axios.get(apiUrl1,{
             headers: {

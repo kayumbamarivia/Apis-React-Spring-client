@@ -21,7 +21,7 @@ export default function New() {
     try {
       setLoading(true);
       const token = sessionStorage.getItem("token");
-      const res = await fetch(`https://java-spring-boot-backend-apis.onrender.com/api/student/${currentUser.id}/add`, {
+      const res = await fetch(`https://kayumba-jmv-java-spring-boot-backend-apis.onrender.com/api/student/${currentUser.id}/add`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

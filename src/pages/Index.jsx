@@ -18,14 +18,14 @@ export default function Index() {
       const token = sessionStorage.getItem('token');
       if (role === 'SUPERUSER' || role === 'ADMIN') {
         if (viewOption === 'all') {
-          const response = await axios.get("https://java-spring-boot-backend-apis.onrender.com/api/students", {
+          const response = await axios.get("https://kayumba-jmv-java-spring-boot-backend-apis.onrender.com/api/students", {
             headers: {
               'Authorization': `Bearer ${token}`
             }
           });
           setStudents(response.data.flat());
         } else if (viewOption === 'createdByUser') {
-          const response = await axios.get(`https://java-spring-boot-backend-apis.onrender.com/api/${currentUser.id}/students`, {
+          const response = await axios.get(`https://kayumba-jmv-java-spring-boot-backend-apis.onrender.com/api/${currentUser.id}/students`, {
             headers: {
               'Authorization': `Bearer ${token}`
             }
@@ -33,7 +33,7 @@ export default function Index() {
           setStudents(response.data.flat());
         }
       } else if (role === 'USER') {
-        const response = await axios.get(`https://java-spring-boot-backend-apis.onrender.com/api/${currentUser.id}/students`, {
+        const response = await axios.get(`https://kayumba-jmv-java-spring-boot-backend-apis.onrender.com/api/${currentUser.id}/students`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -48,7 +48,7 @@ export default function Index() {
   async function deleteStudentById(id) {
     try {
       const token = sessionStorage.getItem('token');
-      await axios.delete(`https://java-spring-boot-backend-apis.onrender.com/api/students/${id}/delete`, {
+      await axios.delete(`https://kayumba-jmv-java-spring-boot-backend-apis.onrender.com/api/students/${id}/delete`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

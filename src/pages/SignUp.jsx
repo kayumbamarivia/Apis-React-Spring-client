@@ -16,7 +16,7 @@ export default function SignUp() {
     e.preventDefault();
     try {
       setLoading(true);
-      const res = await fetch('https://java-spring-boot-backend-apis.onrender.com/api/signup', {
+      const res = await fetch('https://kayumba-jmv-java-spring-boot-backend-apis.onrender.com/api/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

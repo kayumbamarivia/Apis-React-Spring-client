@@ -70,7 +70,7 @@ export default function Profile() {
     try {
       dispatch(updateUserStart());
       const token = sessionStorage.getItem("token");
-      const res = await fetch(`https://java-spring-boot-backend-apis.onrender.com/api/user/${currentUser.id}/edit`, {
+      const res = await fetch(`https://kayumba-jmv-java-spring-boot-backend-apis.onrender.com/api/user/${currentUser.id}/edit`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -96,7 +96,7 @@ export default function Profile() {
     try {
       dispatch(deleteUserStart());
       const token = sessionStorage.getItem("token");
-      const res = await fetch(`https://java-spring-boot-backend-apis.onrender.com/api/user/${currentUser.id}/delete`, {
+      const res = await fetch(`https://kayumba-jmv-java-spring-boot-backend-apis.onrender.com/api/user/${currentUser.id}/delete`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`

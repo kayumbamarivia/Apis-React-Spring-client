@@ -14,7 +14,7 @@ export default function Users() {
   async function Load() {
     try {
         const token = sessionStorage.getItem('token');
-        const response = await axios.get("https://java-spring-boot-backend-apis.onrender.com/api/users", {
+        const response = await axios.get("https://kayumba-jmv-java-spring-boot-backend-apis.onrender.com/api/users", {
            headers: {
               'Authorization': `Bearer ${token}`
             }

@@ -14,7 +14,7 @@ export default function Student() {
   async function getStudentById() {
     try {
       const token = sessionStorage.getItem("token");
-      const response = await axios.get(`https://java-spring-boot-backend-apis.onrender.com/api/student/${studentId}/get`, {
+      const response = await axios.get(`https://kayumba-jmv-java-spring-boot-backend-apis.onrender.com/api/student/${studentId}/get`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -28,7 +28,7 @@ export default function Student() {
   async function deleteStudentById(id) {
     try {
       const token = sessionStorage.getItem("token");
-      await axios.delete(`https://java-spring-boot-backend-apis.onrender.com/api/student/${id}/delete`, {
+      await axios.delete(`https://kayumba-jmv-java-spring-boot-backend-apis.onrender.com/api/student/${id}/delete`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
